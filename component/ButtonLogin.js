@@ -1,7 +1,7 @@
 import { auth } from "../auth";
 import { SignOut } from "./ButtonSignout";
 import { SignIn } from "./ButtonSignin";
-import Image from "next/image";
+
 import Link from "next/link";
 
 async function Button() {
