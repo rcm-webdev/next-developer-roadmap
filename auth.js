@@ -9,7 +9,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     Resend({
-      // If your environment variable is named differently than default
       apiKey: process.env.RESEND_KEY,
       from: "no-reply@resend.rcmcodes.com",
       name: "Email",
