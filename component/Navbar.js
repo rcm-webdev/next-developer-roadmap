@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Logo from "@/public/code-braces.svg";
+import User from "@/public/user-smile.svg";
 
 function Navbar() {
   return (
@@ -21,7 +22,11 @@ function Navbar() {
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
-          ></div>
+          >
+            <div className="w-10 rounded-full">
+              <Image alt="Tailwind CSS Navbar component" src={User} />
+            </div>
+          </div>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
