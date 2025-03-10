@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Zombie from "@/public/ZombieingDoodle.svg";
 import Roadmap from "@/public/roadmap.svg";
+import Link from "next/link";
 
 function Hero() {
   return (
@@ -25,7 +26,9 @@ function Hero() {
             </p>
           </div>
           <div className="flex gap-2 justify-center md:justify-start">
-            <button className="btn btn-primary">Get Roadmap</button>
+            <button className="btn btn-primary">
+              <Link href={"/"}>Get Roadmap</Link>
+            </button>
             <button className="btn btn-accent">Track Progress</button>
           </div>
         </div>
