@@ -1,4 +1,4 @@
-import Roadmap from "@/public/path.svg";
+import Roadmap from "@/public/code-braces.svg";
 import Image from "next/image";
 
 function Footer() {
