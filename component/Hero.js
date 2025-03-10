@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Zombie from "@/public/ZombieingDoodle.svg";
-import Roadmap from "@/public/path.svg";
+import Roadmap from "@/public/roadmap.svg";
 
 function Hero() {
   return (
