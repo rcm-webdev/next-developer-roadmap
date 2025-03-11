@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Fuse from "fuse.js";
 import Image from "next/image";
 import Logo from "@/public/code-braces.svg";
@@ -26,20 +26,91 @@ const fuse = new Fuse(dataset, {
   threshold: 0.3,
 });
 
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+function SearchBar({ search, handleSearch, results }) {
+  return (
+    <div className="relative">
+      <label className="input">
+        <svg
+          className="h-[1em] opacity-50"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeWidth="2.5"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input
+          type="search"
+          id="search"
+          className="grow"
+          placeholder="Search"
+          autoComplete="off"
+          value={search}
+          onChange={handleSearch}
+        />
+      </label>
+      {results.length > 0 && (
+        <ul className="absolute list left-0 right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+          <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
+            List of Resources
+          </li>
+          {results.map((result, index) => (
+            <li key={index} className="list-row p-2">
+              <div className="text-4xl font-thin opacity-30 tabular-nums">
+                {result.number}
+              </div>
+              <div className="list-col-grow">
+                <div>{result.title}</div>
+                <div className="text-xs opacity-60">{result.description}</div>
+              </div>
+              <button className="btn btn-square btn-ghost">
+                <Link href={result.link}>
+                  <Image src={Sticky} alt="Sticky Notes" />
+                </Link>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function Navbar() {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
+  const debouncedSearch = useDebounce(search, 300);
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    if (value) {
-      const searchResults = fuse.search(value).map((result) => result.item);
+  useEffect(() => {
+    if (debouncedSearch) {
+      const searchResults = fuse
+        .search(debouncedSearch)
+        .map((result) => result.item);
       setResults(searchResults);
     } else {
       setResults([]);
     }
-  };
+  }, [debouncedSearch]);
+
+  const handleSearch = (e) => setSearch(e.target.value);
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -51,61 +122,11 @@ function Navbar() {
       </div>
       <div className="flex gap-2">
         {/* Search function */}
-        <div className="relative">
-          <label className="input">
-            <svg
-              className="h-[1em] opacity-50"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input
-              type="search"
-              id="search"
-              className="grow"
-              placeholder="Search"
-              autoComplete="off"
-              value={search}
-              onChange={handleSearch}
-            />
-          </label>
-          {results.length > 0 && (
-            <ul className="absolute list left-0 right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-              <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-                List of Resources
-              </li>
-              {results.map((result, index) => (
-                <li key={index} className="list-row p-2">
-                  <div className="text-4xl font-thin opacity-30 tabular-nums">
-                    {result.number}
-                  </div>
-                  <div className="list-col-grow">
-                    <div>{result.title}</div>
-                    <div className="text-xs  opacity-60">
-                      {result.description}
-                    </div>
-                  </div>
-
-                  <button className="btn btn-square btn-ghost">
-                    <Link href={result.link}>
-                      <Image src={Sticky} alt="Sticky Notes" />
-                    </Link>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <SearchBar
+          search={search}
+          handleSearch={handleSearch}
+          results={results}
+        />
 
         <div className="dropdown dropdown-end">
           <div
