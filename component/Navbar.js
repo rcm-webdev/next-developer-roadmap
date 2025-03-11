@@ -13,11 +13,11 @@ const dataset = [
     title: "JavaScript",
     number: 1,
     description: "Lorem Ipsum",
-    link: "/javascript",
+    link: "/api/auth",
   },
-  { title: "React", number: 2, description: "Lorem Ipsum", link: "/react" },
-  { title: "Next.js", number: 3, description: "Lorem Ipsum", link: "/nextjs" },
-  { title: "Node.js", number: 4, description: "Lorem Ipsum", link: "/nodejs" },
+  { title: "React", number: 2, description: "Lorem Ipsum", link: "/" },
+  { title: "Next.js", number: 3, description: "Lorem Ipsum", link: "/" },
+  { title: "Node.js", number: 4, description: "Lorem Ipsum", link: "/" },
   // Add more items as needed
 ];
 
@@ -25,17 +25,6 @@ const fuse = new Fuse(dataset, {
   keys: ["title"],
   threshold: 0.3,
 });
-
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-
-  return debouncedValue;
-}
 
 function SearchBar({ search, handleSearch, results }) {
   return (
@@ -67,7 +56,7 @@ function SearchBar({ search, handleSearch, results }) {
           onChange={handleSearch}
         />
       </label>
-      {results.length > 0 && (
+      {results.length > 0 ? (
         <ul className="absolute list left-0 right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-lg z-10">
           <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
             List of Resources
@@ -89,7 +78,11 @@ function SearchBar({ search, handleSearch, results }) {
             </li>
           ))}
         </ul>
-      )}
+      ) : search ? (
+        <ul className="absolute list left-0 right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+          <li className="p-4 text-xs opacity-60">No results found.</li>
+        </ul>
+      ) : null}
     </div>
   );
 }
@@ -97,20 +90,12 @@ function SearchBar({ search, handleSearch, results }) {
 function Navbar() {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  const debouncedSearch = useDebounce(search, 300);
 
-  useEffect(() => {
-    if (debouncedSearch) {
-      const searchResults = fuse
-        .search(debouncedSearch)
-        .map((result) => result.item);
-      setResults(searchResults);
-    } else {
-      setResults([]);
-    }
-  }, [debouncedSearch]);
-
-  const handleSearch = (e) => setSearch(e.target.value);
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    setResults(value ? fuse.search(value).map((result) => result.item) : []);
+  };
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -140,6 +125,8 @@ function Navbar() {
           </div>
           <ul
             tabIndex={0}
+            role="button"
+            aria-haspopup="true"
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
