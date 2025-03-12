@@ -22,17 +22,28 @@ function Searchbar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState(null);
   const searchRef = useRef(null);
 
   //useEffect hook
   useEffect(() => {
-    if (query.trim()) {
-      const searchResults = fuse.search(query);
-      setResults(searchResults.map(({ item }) => item));
-      setIsOpen(true);
-    } else {
-      setResults([]);
-      setIsOpen(false);
+    try {
+      if (query.trim()) {
+        const searchResults = fuse.search(query).map(({ item }) => item);
+        if (searchResults.length === 0) {
+          setError("No results found");
+        } else {
+          setError(null);
+        }
+        setResults(searchResults);
+        setIsOpen(true);
+      } else {
+        setResults([]);
+        setIsOpen(false);
+        setError(null);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again");
     }
   }, [query]);
 
