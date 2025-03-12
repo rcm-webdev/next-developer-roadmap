@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, useRef } from "react";
 import Fuse from "fuse.js";
 
@@ -23,6 +22,7 @@ function Searchbar() {
   const [results, setResults] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const searchRef = useRef(null);
 
   //useEffect hook
@@ -58,6 +58,21 @@ function Searchbar() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  const handleKeyDown = (e) => {
+    if (!isOpen) return;
+    if (e.key === "ArrowDown") {
+      setActiveIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : results.lenght - 1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      setQuery(results[activeIndex].name);
+      setIsOpen(false);
+      setActiveIndex(-1);
+    } else if (e.key === "Escape") {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div className="relative w-72" ref={searchRef}>
       <input
@@ -67,21 +82,29 @@ function Searchbar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => query && setIsOpen(true)}
+        onKeyDown={handleKeyDown}
       />
       {isOpen && results.length > 0 && (
         <div className="absolute w-full bg-base-100 shadow-lg mt-2 rounded-md z-50">
-          {results.map((item) => (
-            <div
-              key={item.name}
-              className="p-2 hover-bg-base-200 cursor-pointer"
-              onClick={() => {
-                setQuery(item.name);
-                setIsOpen(false);
-              }}
-            >
-              <strong>{item.name}</strong> <span>({item.category})</span>
-            </div>
-          ))}
+          {error ? (
+            <div className="p-2 text-base-200">{error}</div>
+          ) : (
+            results.map((item, index) => (
+              <div
+                key={item.name}
+                className={`p-2 cursor-pointer rounded ${
+                  activeIndex === index ? "bg-base-300" : "hover:bg-base-200"
+                }`}
+                onClick={() => {
+                  setQuery(item.name);
+                  setIsOpen(false);
+                  setActiveIndex(-1);
+                }}
+              >
+                <strong>{item.name}</strong> <span>({item.category})</span>
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>
