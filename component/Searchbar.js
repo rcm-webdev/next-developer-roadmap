@@ -1,8 +1,9 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import Fuse from "fuse.js";
 
-//sample data
+// Sample data
 const components = [
   { name: "Button", category: "Forms", description: "Clickable UI element" },
   { name: "Card", category: "Layout", description: "Clickable UI element" },
@@ -10,14 +11,14 @@ const components = [
   { name: "Input", category: "Forms", description: "Clickable UI element" },
 ];
 
-//telling fuse where to fuzzy search with a score of 0.3 and lower.
+// Telling fuse where to fuzzy search with a score of 0.3 and lower.
 const fuse = new Fuse(components, {
   keys: ["name", "category", "description"],
   threshold: 0.3,
 });
 
 function Searchbar() {
-  //setup the initial state of our searchbar
+  // Setup the initial state of our searchbar
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ function Searchbar() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const searchRef = useRef(null);
 
-  //useEffect hook
+  // useEffect hook
   useEffect(() => {
     try {
       if (query.trim()) {
@@ -47,7 +48,7 @@ function Searchbar() {
     }
   }, [query]);
 
-  //close dropdown when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -63,7 +64,7 @@ function Searchbar() {
     if (e.key === "ArrowDown") {
       setActiveIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
     } else if (e.key === "ArrowUp") {
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : results.lenght - 1));
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
     } else if (e.key === "Enter" && activeIndex >= 0) {
       setQuery(results[activeIndex].name);
       setIsOpen(false);
@@ -84,11 +85,11 @@ function Searchbar() {
         onFocus={() => query && setIsOpen(true)}
         onKeyDown={handleKeyDown}
       />
-      {isOpen && results.length > 0 && (
+      {isOpen && (
         <div className="absolute w-full bg-base-100 shadow-lg mt-2 rounded-md z-50">
           {error ? (
             <div className="p-2 text-base-200">{error}</div>
-          ) : (
+          ) : results.length > 0 ? (
             results.map((item, index) => (
               <div
                 key={item.name}
@@ -104,6 +105,8 @@ function Searchbar() {
                 <strong>{item.name}</strong> <span>({item.category})</span>
               </div>
             ))
+          ) : (
+            <div className="p-2 text-base-content ">No matching Results</div>
           )}
         </div>
       )}
