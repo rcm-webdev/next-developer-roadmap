@@ -7,7 +7,12 @@ function Hero() {
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
-        <Image src={Zombie} alt="Zombie" className="hidden md:block w-3/4" />
+        <Image
+          src={Zombie}
+          alt="Zombie"
+          className="hidden md:block w-3/4"
+          loading="lazy"
+        />
         <div>
           <div className="flex gap-4 items-center">
             <h1 className="text-5xl font-bold text-neutral">
