@@ -1,14 +1,13 @@
 import Footer from "@/component/Footer";
 import Hero from "@/component/Hero";
+import Toast from "@/component/Toast";
 
 export default function Home() {
   return (
     <div>
-      <main>
-        <Hero />
-
-        <Footer />
-      </main>
+      <Hero />
+      <Footer />
+      <Toast />
     </div>
   );
 }
