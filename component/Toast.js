@@ -4,7 +4,7 @@ function Toast() {
   let github = "https://github.com/rcm-webdev";
   return (
     <div>
-      <div className="toast toast-end ">
+      <div className="toast toast-end md:toast-center ">
         <div className="alert bg-base-100 rounded-3xl ">
           <span> 👋🏽 Want to see more projects like this one?</span>
         </div>
