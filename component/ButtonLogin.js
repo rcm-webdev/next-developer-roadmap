@@ -4,7 +4,6 @@ import Image from "next/image";
 
 async function Button() {
   const session = await auth();
-  console.log(session);
 
   const getInitials = (name) => {
     if (!name) return "NA"; // Default value if name is not available
