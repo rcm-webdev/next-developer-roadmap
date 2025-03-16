@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 function Toast() {
+  let github = "https://github.com/rcm-webdev";
   return (
     <div>
       <div className="toast toast-end ">
@@ -6,7 +9,7 @@ function Toast() {
           <span> 👋🏽 Want to see more projects like this one?</span>
         </div>
         <div className="btn btn-accent w-fit rounded-3xl">
-          <span> ✨ Checkout my github </span>
+          <Link href={github}> ✨ Checkout my github </Link>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
