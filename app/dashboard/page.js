@@ -1,5 +1,5 @@
 import { SignOut } from "@/component/ButtonSignout";
-import CreateBoard from "@/component/CreateBoard";
+import CreateBoard from "@/component/CreateBoardForm";
 
 function Dashboard() {
   return (
