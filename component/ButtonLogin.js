@@ -1,12 +1,13 @@
 import { auth } from "../auth";
-import Link from "next/link";
+import { SignOut } from "./ButtonSignout";
+import { SignIn } from "./ButtonSignin";
 import Image from "next/image";
+import Link from "next/link";
 
 async function Button() {
   const session = await auth();
 
   const getInitials = (name) => {
-    if (!name) return "NA"; // Default value if name is not available
     return name
       .split(" ") // Split the name into parts
       .slice(0, 2) // Take the first two parts of the name
@@ -29,16 +30,16 @@ async function Button() {
             <Link href={"/dashboard"}>Dashboard</Link>
           </li>
           <li>
-            <Link href={"/api/auth/signout"}>Sign out</Link>
+            <SignOut />
           </li>
         </ul>
       </div>
     );
   }
   return (
-    <Link href="/api/auth/signin" className="btn btn-accent">
-      <span>Login</span>
-    </Link>
+    <div>
+      <SignIn />
+    </div>
   );
 }
 
