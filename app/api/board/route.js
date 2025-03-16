@@ -4,7 +4,7 @@ import connectMongo from "@/libs/mongoose";
 import User from "@/models/User";
 import Boards from "@/models/Boards";
 
-async function POST(req) {
+export async function POST(req) {
   try {
     const body = await req.json();
     if (!body.name) {
