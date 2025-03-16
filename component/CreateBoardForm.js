@@ -12,7 +12,7 @@ function CreateBoard() {
     setIsLoading(true);
 
     try {
-      await fetch("/api/board", {
+      const response = await fetch("/api/board", {
         method: "POST",
         body: JSON.stringify({
           name: name,
@@ -21,6 +21,10 @@ function CreateBoard() {
           "Content-Type": "application/json",
         },
       });
+
+      const data = await response.json();
+      console.log(data);
+      setName("");
     } catch (err) {
     } finally {
       setIsLoading(false);
