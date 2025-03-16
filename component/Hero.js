@@ -2,6 +2,7 @@ import Image from "next/image";
 import Zombie from "@/public/ZombieingDoodle.svg";
 import Roadmap from "@/public/roadmap.svg";
 import Link from "next/link";
+import Button from "./ButtonLogin";
 
 function Hero() {
   return (
@@ -34,9 +35,7 @@ function Hero() {
             <button className="btn btn-primary">
               <Link href={"/"}>Get Roadmap</Link>
             </button>
-            <button className="btn btn-accent">
-              <Link href={"/dashboard"}> Track Progress</Link>
-            </button>
+            <Button />
           </div>
         </div>
       </div>
