@@ -1,5 +1,4 @@
 import "./globals.css";
-import Navbar from "@/component/Navbar";
 
 export const metadata = {
   title: "Developers Roadmap",
@@ -10,10 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="bumblebee">
-      <body>
-        <Navbar />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
