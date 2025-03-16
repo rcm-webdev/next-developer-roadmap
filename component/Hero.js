@@ -34,7 +34,9 @@ function Hero() {
             <button className="btn btn-primary">
               <Link href={"/"}>Get Roadmap</Link>
             </button>
-            <button className="btn btn-accent">Track Progress</button>
+            <button className="btn btn-accent">
+              <Link href={"/dashboard"}> Track Progress</Link>
+            </button>
           </div>
         </div>
       </div>
