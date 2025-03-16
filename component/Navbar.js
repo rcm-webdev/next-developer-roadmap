@@ -18,8 +18,6 @@ function Navbar() {
         </Link>
       </div>
       <div className="flex gap-2">
-        {/* Search function */}
-        <Searchbar />
         <Button />
       </div>
     </div>
