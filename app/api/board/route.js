@@ -40,3 +40,45 @@ export async function POST(req) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+// delete board api endpoint
+export async function DELETE(req) {
+  try {
+    //delete board based on query params /api/board?boardId=67da29a46...
+    const { searchParams } = req.NextUrl;
+
+    //search params.get to get query parameters
+    const boardId = searchParams.get("boardId");
+
+    if (!boardId) {
+      return NextResponse.json(
+        { error: "boardId is required" },
+        { status: 400 }
+      );
+    }
+
+    const session = await auth();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          error: "Not authorized",
+        },
+        { status: 401 }
+      );
+    }
+
+    await Boards.deleteOne({
+      _id: boardId,
+      userId: session?.user?.id,
+    });
+
+    const user = await User.findById(session?.user?.id);
+
+    user.boards = user.boards.filter((id) => id.toString() !== boardId);
+    await user.save();
+    return NextResponse.json({});
+  } catch (e) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
