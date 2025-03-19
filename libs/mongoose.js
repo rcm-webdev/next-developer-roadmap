@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import User from "@/models/User";
+import Boards from "@/models/Boards";
 
 async function connectMongo() {
   try {
