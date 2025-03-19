@@ -1,8 +1,9 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function CreateBoard() {
   const router = useRouter();
@@ -18,8 +19,15 @@ function CreateBoard() {
       const data = await axios.post("api/board", { name });
 
       setName("");
+
+      toast.success(`${name} board created`);
+
       router.refresh();
-    } catch (err) {
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.error || error.message || "Something went wrong";
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +44,6 @@ function CreateBoard() {
       <fieldset className="fieldset">
         <legend className="fieldset-legend text-lg">Board Name</legend>
         <input
-          required
           type="text"
           className="input w-full"
           placeholder="Future Unicorn Inc 🦄"

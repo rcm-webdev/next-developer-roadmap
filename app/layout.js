@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Developers Roadmap",
@@ -9,7 +10,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="bumblebee">
-      <body>{children}</body>
+      <body>
+        <div>
+          <Toaster />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
