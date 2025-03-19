@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 function ButtonBack() {
   return (
-    <button className="btn btn-base-200">
+    <Link href={"/dashboard"} className="btn btn-base-200">
       Back{" "}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +16,7 @@ function ButtonBack() {
           clipRule="evenodd"
         />
       </svg>
-    </button>
+    </Link>
   );
 }
 
