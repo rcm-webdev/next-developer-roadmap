@@ -45,7 +45,7 @@ export async function POST(req) {
 export async function DELETE(req) {
   try {
     //delete board based on query params /api/board?boardId=67da29a46...
-    const { searchParams } = req.NextUrl;
+    const { searchParams } = req.nextUrl;
 
     //search params.get to get query parameters
     const boardId = searchParams.get("boardId");
