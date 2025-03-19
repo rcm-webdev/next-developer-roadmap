@@ -27,7 +27,9 @@ async function PublicFeebackBoard({ params }) {
           <ButtonBack />
         </div>
       </section>
-      {board.name}(public)
+      <section className="max-w-5xl mx-auto px-5 py-12 space-y-12 ">
+        <h1 className="font-extrabold text-xl mb-4">{board.name}(public)</h1>
+      </section>
     </main>
   );
 }
