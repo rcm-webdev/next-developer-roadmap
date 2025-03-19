@@ -1,9 +1,9 @@
-import ButtonBack from "@/component/ButtonBack";
 import { SignOut } from "@/component/ButtonSignout";
 import CreateBoard from "@/component/CreateBoardForm";
 import { auth } from "@/auth";
 import connectMongo from "@/libs/mongoose";
 import User from "@/models/User";
+import Link from "next/link";
 
 async function getUser() {
   const session = await auth();
@@ -33,8 +33,13 @@ async function Dashboard() {
           <ul className="space-y-4">
             {user.boards.map((board) => {
               return (
-                <li key={board._id} className="bg-base-100 p-6 rounded-3xl">
-                  {board.name}
+                <li key={board._id}>
+                  <Link
+                    href={`/dashboard/b/${board._id}`}
+                    className="block bg-base-100 p-6 rounded-3xl hover:bg-neutral hover:text-neutral-content duration-200"
+                  >
+                    {board.name}
+                  </Link>
                 </li>
               );
             })}
