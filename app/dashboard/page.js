@@ -18,8 +18,7 @@ async function Dashboard() {
     <main className="bg-base-200 min-h-screen">
       {/* Header */}
       <section className="bg-base-100">
-        <div className="px-5 py-5 max-w-5xl mx-auto flex justify-between">
-          <ButtonBack />
+        <div className="px-5 py-5 max-w-5xl mx-auto flex justify-end">
           <SignOut />
         </div>
       </section>
