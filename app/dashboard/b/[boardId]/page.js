@@ -3,6 +3,7 @@ import connectMongo from "@/libs/mongoose";
 import Boards from "@/models/Boards";
 import { auth } from "@/auth";
 import ButtonBack from "@/component/ButtonBack";
+import CardBoardLink from "@/component/CardBoardLink";
 
 const getBoard = async (boardId) => {
   const session = await auth();
@@ -17,13 +18,17 @@ const getBoard = async (boardId) => {
     redirect("/dashboard");
   }
 
-  return board;
+  return {
+    ...board.toObject(),
+    _id: board._id.toString(),
+    userId: board.userId.toString(),
+  };
 };
 
 async function FeebackBoard({ params }) {
   const { boardId } = await params;
 
-  const board = await getBoard(boardId);
+  const board = await getBoard(boardId.toString());
 
   return (
     <main className="bg-base-200 min-h-screen">
@@ -35,6 +40,7 @@ async function FeebackBoard({ params }) {
       </section>
       <section className="max-w-5xl mx-auto px-5 py-12 space-y-12 ">
         <h1 className="font-extrabold text-xl mb-4">{board.name}</h1>
+        <CardBoardLink boardId={board._id} />
       </section>
     </main>
   );
