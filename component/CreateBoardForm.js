@@ -2,8 +2,10 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function CreateBoard() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,8 +16,9 @@ function CreateBoard() {
 
     try {
       const data = await axios.post("api/board", { name });
-      console.log(data);
+
       setName("");
+      router.refresh();
     } catch (err) {
     } finally {
       setIsLoading(false);
