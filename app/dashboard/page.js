@@ -4,9 +4,13 @@ import { auth } from "@/auth";
 import connectMongo from "@/libs/mongoose";
 import User from "@/models/User";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 async function getUser() {
   const session = await auth();
+  if (!session || !session.user) {
+    redirect("/");
+  }
   await connectMongo();
   return await User.findById(session.user.id).populate("boards");
 }
